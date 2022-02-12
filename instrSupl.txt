@@ -1,0 +1,11 @@
+pentru tip R: slt 
+		if(RF[rs]<RF[rt]) then RF[rd]<-1    
+	        else RF[rd]<-0
+	      xor
+    		RF[rd]<-RF[rs]^RF[rt]  --operatia xor
+pentru tip I: bne  --pentru bne am luat un semnal in plus Branch2
+              bgez --pentru bgez am luat un semnal in plus Branch3
+	      bne
+		if(RF[rs]!=RF[rt]) then PC<-PC+2+S_Ext(imm)<<1    
+	      bgez
+		if(RF[rs]>=0) then PC<-PC+2+S_Ext(imm)<<1    

@@ -1,0 +1,21 @@
+--adunam elementele unui sir, daca gasim elementul 2 il adunam de 2 ori
+--daca primul element din sir e 2
+0: add $1,$0,$0                                                --RD1=0,RD2=0,ALURes=0       
+1: addi $4,$0,5                                                --RD1=0,ALURes=5,Ext_Imm=5       
+2: add $2,$0,$0                                                --RD1=0,RD2=0,ALURes=0         
+3: add $5,$0,$0 					       --RD1=0,RD2=0,ALURes=0	
+4: addi &6,&0,2 					       --RD1=0,ALURes=0,Ext_Imm=2	
+5: beq $1,$4,12			        		       --RD1=0,RD2=5,ALURes=-5,Ext_Imm=12	
+6:	       lw: $3,0($2) 				       --RD1=0,ALURes=0,Ext_Imm=0 		
+7:             sw $3,0($2) 				       --RD1=0,ALURes=0,Ext_Imm=0
+8:             bne $3,$6,5				       --RD1=2,RD2=2,ALURes=0,Ext_Imm=5
+9:                 add $5,$5,$3  			       --RD1=0,RD2=2,ALURes=2
+10:                add $5,$5,$3 			       --RD1=2,RD2=2,ALURes=4
+11:                addi $2,$2,1       			       --RD1=0,ALURes=1,Ext_Imm=1
+12:                addi $1,$1,1       			       --RD1=0,ALURes=1,Ext_Imm=1
+13:                j 5  				       --pc+1=5, pc=E
+14:                add $5,$5,$3  			       --nu se executa la prima parcurgere
+15:		   addi $2,$2,1      			       --nu se executa la prima parcurgere
+16:                addi $1,$1,1       			       --nu se executa la prima parcurgere
+17:                j 5      				       --nu se executa la prima parcurgere
+18: sw $5,0($0)          				       --nu se executa la prima parcurgere

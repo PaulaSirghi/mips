@@ -1,0 +1,43 @@
+--adunam elementele unui sir, daca gasim elementul 2 il adunam de 2 ori
+0: add $1,$0,$0 #ct=0 pentru loop
+1: addi $4,$0,5 #5 elemente in array deci 5 interatii 
+2: add $2,$0,$0 #index 
+3: add $5,$0,$0 #suma e 0
+4: addi &6,&0,2 #memoram 2 pentru a-l compara mai tarziu cu valorile din sir
+5: begin_loop: beq $1,$4,end_loop  #daca am parcurs tot sirul iesim din loop
+6:	       lw: $3,A_addr($2) #incarcam elementul curent
+7:             sw $3,A_addr($2) #salvam noua valoare 
+8:             bne $3,$6,o_data #daca elementul curent nu are valoarea 2 il adunam doar o data
+9:                add $5,$5,$3  #adunam o data 
+10:                add $5,$5,$3  #adunam inca o data
+11:                addi $2,$2,1       #crestem indexul
+12:                addi $1,$1,1       #crestem contorul 
+13:                j begin_loop
+14:            o_data: add $5,$5,$3  #adunam o data 
+15:		       addi $2,$2,1       #crestem indexul  
+16:                    addi $1,$1,1       #crestem contorul
+17:                    j begin_loop       #salt la inceput
+18: end_loop: sw $5,sum_addr($0)          #salvam suma
+
+
+--am testat pe placa si a mers 
+--adunam elementele unui sir, daca gasim elementul 2 il adunam de 2 ori
+0: add $1,$0,$0                                                         #B"000_000_000_001_0_000"
+1: addi $4,$0,5                                                         #B"001_000_100_0000101"
+2: add $2,$0,$0                                                         #B"000_000_000_010_0_000"
+3: add $5,$0,$0 							#B"000_000_000_101_0_000"
+4: addi &6,&0,2 							#B"001_000_110_0000010"
+5: beq $1,$4,12			        				#B"100_001_100_0001100"
+6:	       lw: $3,0($2) 						#B"010_010_011_0010100"
+7:             sw $3,0($2) 						#B"011_010_011_0010100"
+8:             bne $3,$6,5						#B"101_011_110_0000101"
+9:                add $5,$5,$3  					#B"000_101_011_101_0_000"
+10:                add $5,$5,$3 					#B"000_101_011_101_0_000"
+11:                addi $2,$2,1       					#B"001_010_010_0000001"
+12:                addi $1,$1,1       					#B"001_001_001_0000001"
+13:                j 5  						#B"111_0000000000101"
+14:                add $5,$5,$3  					#B"000_101_011_101_0_000"
+15:		   addi $2,$2,1      					#B"001_010_010_0000001"
+16:                addi $1,$1,1       					#B"001_001_001_0000001"
+17:                j 5      						#B"111_0000000000101"
+18: sw $5,0($0)          						#B"011_000_101_0000000"
